@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div v-for="(todo, index) in todos" :key="todo.title">
+    <div v-for="(todo, index) in filters" :key="todo.title">
       <b-field class="is-pulled-left">
         <b-checkbox size="is-large" @input="setStatusTodo(index)">
           <strike v-if="todo.completed">{{ todo.title }}</strike>
@@ -18,10 +18,24 @@ import { mapGetters, mapActions } from 'vuex'
 
 export default {
   computed: {
-    ...mapGetters(['todos'])
+    ...mapGetters(['todos', 'visibility']),
+    filters () {
+      if (this.visibility === 'all') {
+        return this.todos
+      } else if (this.visibility === 'active') {
+        return this.todos.filter(todo => todo.completed === false)
+      } else if (this.visibility === 'completed') {
+        return this.todos.filter(todo => todo.completed === true)
+      }
+    }
   },
   methods: {
     ...mapActions(['deleteList', 'setStatusTodo'])
+  },
+  watch: {
+    todos: function () {
+      this.queryTodoFromVisibility()
+    }
   }
 }
 </script>
