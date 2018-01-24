@@ -20,10 +20,18 @@ export const store = new Vuex.Store({
       state.visibility = newVisibilityValue
     },
     DELETE_LIST (state, indexOfList) {
+      console.log(indexOfList)
       state.todos.splice(indexOfList, 1)
     },
     SETSTATUS_TODO (state, indexOfList) {
       state.todos[indexOfList].completed = !state.todos[indexOfList].completed
+    },
+    DELETETE_COMPLETED (state) {
+      for (var i = state.todos.length - 1; i >= 0; i--) {
+        if (state.todos[i].completed === true) {
+          state.todos.splice(i, 1)
+        }
+      }
     }
   },
   actions: {
@@ -38,6 +46,9 @@ export const store = new Vuex.Store({
     },
     setStatusTodo ({commit}, indexOfList) {
       commit('SETSTATUS_TODO', indexOfList)
+    },
+    deleteCompleted ({commit}) {
+      commit('DELETETE_COMPLETED')
     }
   },
   getters: {
