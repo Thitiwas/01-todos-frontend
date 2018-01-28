@@ -20,7 +20,6 @@ export const store = new Vuex.Store({
       state.visibility = newVisibilityValue
     },
     DELETE_LIST (state, indexOfList) {
-      console.log(indexOfList)
       state.todos.splice(indexOfList, 1)
     },
     SETSTATUS_TODO (state, indexOfList) {
@@ -31,6 +30,15 @@ export const store = new Vuex.Store({
         if (state.todos[i].completed === true) {
           state.todos.splice(i, 1)
         }
+      }
+    },
+    SAVE_LOCAL (state, val) {
+      localStorage.setItem('todos', JSON.stringify(val))
+    },
+    GETTODOS_FROMLOCAL (state) {
+      let todos = localStorage.getItem('todos')
+      if (todos) {
+        state.todos = JSON.parse(todos)
       }
     }
   },
@@ -49,6 +57,12 @@ export const store = new Vuex.Store({
     },
     deleteCompleted ({commit}) {
       commit('DELETETE_COMPLETED')
+    },
+    savetoLocalStorage ({commit}, val) {
+      commit('SAVE_LOCAL', val)
+    },
+    getTodosfromLocal ({commit}) {
+      commit('GETTODOS_FROMLOCAL')
     }
   },
   getters: {

@@ -48,7 +48,15 @@ export default {
     ...mapGetters(['todos', 'visibility'])
   },
   methods: {
-    ...mapActions(['deleteList', 'setStatusTodo', 'deleteCompleted'])
+    ...mapActions(['deleteList', 'setStatusTodo', 'deleteCompleted', 'savetoLocalStorage'])
+  },
+  watch: {
+    todos: {
+      handler (val) {
+        this.savetoLocalStorage(val)
+      },
+      deep: true
+    }
   }
 }
 </script>
