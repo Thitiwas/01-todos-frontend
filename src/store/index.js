@@ -40,6 +40,9 @@ export const store = new Vuex.Store({
       if (todos) {
         state.todos = JSON.parse(todos)
       }
+    },
+    SORT_TO (state, payload) {
+      state.todos.splice(payload.newIndex, 0, state.todos.splice(payload.oldIndex, 1)[0])
     }
   },
   actions: {
@@ -63,6 +66,9 @@ export const store = new Vuex.Store({
     },
     getTodosfromLocal ({commit}) {
       commit('GETTODOS_FROMLOCAL')
+    },
+    sortTo ({commit}, payload) {
+      commit('SORT_TO', payload)
     }
   },
   getters: {
